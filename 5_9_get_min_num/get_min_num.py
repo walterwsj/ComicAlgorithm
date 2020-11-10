@@ -13,5 +13,26 @@ def get_min_num(num, k):
     return list_num
 
 
-a = 19870
-print(get_min_num(a, 5))
+def get_min_num_1(num, k):
+    list_num = list(str(num))
+    new_len = len(list_num) - k
+    res = ["" for i in range(new_len)]
+    top = 0
+    for i in range(len(list_num)):
+        while top > 0 and k > 0 and res[top - 1] > list_num[i]:
+            top -= 1
+            k -= 1
+        res[top] = list_num[i]
+        top += 1
+    offset = 0
+    while offset < new_len and res[offset] == '0':
+        offset += 1
+    if offset == new_len:
+        return "0"
+    else:
+        res = res[offset:new_len - offset]
+        return "".join(res)
+
+
+a = 30200
+print(get_min_num_1(a, 1))
