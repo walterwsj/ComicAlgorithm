@@ -56,5 +56,21 @@ def get_two_single_nums(test_list):
     return res[0], res[1]
 
 
+def get_two_single_nums_1(num_list):
+    res = [0, 0]
+    sep = 1
+    tmp_res = 0
+    for i in num_list:
+        tmp_res ^= i
+    while 0 == (tmp_res & sep):
+        sep <<= 1
+    for i in num_list:
+        if i & sep == 1:
+            res[0] ^= i
+        else:
+            res[1] ^= i
+    return res
+
+
 a = [1, 1, 2, 3, 4, 4]
-print(get_two_single_nums(a))
+print(get_two_single_nums_1(a))
