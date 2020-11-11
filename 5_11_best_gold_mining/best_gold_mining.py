@@ -74,6 +74,28 @@ def get_best_gold_mining_5(works, work_list, gold_list):
     return res[works]
 
 
+def get_best_gold_mining_6(workers, work_list, gold_list):
+    # F(n,k)=F(n-1,k)
+    rows = len(work_list) + 1
+    table = [[0 for i in range(workers + 1)] for i in range(rows)]
+    for i in range(1, rows):
+        for j in range(1, workers):
+            if j < work_list[i - 1]:
+                table[i][j] = table[i - 1][j]
+            else:
+                table[i][j] = max(table[i - 1][j], table[i - 1][j - work_list[i - 1]] + gold_list[i - 1])
+    return table[rows - 1][workers]
+
+
+def get_best_gold_mining_7(workers, work_list, gold_list):
+    res = [0 for i in range(workers + 1)]
+    for i in range(1, len(work_list) + 1):
+        for j in range(1, len(workers) + 1)[::-1]:
+            if j >= work_list[i - 1]:
+                res[j] = max(res[j], res[j - work_list[i - 1]] + gold_list[i - 1])
+    return res[workers]
+
+
 w = 10
 p = [5, 5, 3, 4, 3]
 g = [400, 500, 200, 300, 350]

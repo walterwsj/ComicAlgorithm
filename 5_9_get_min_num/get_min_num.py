@@ -34,5 +34,28 @@ def get_min_num_1(num, k):
         return "".join(res)
 
 
+def get_min_num_2(num, k):
+    # 元素依次入栈。 判断三次当前数是否小于上一个数
+    # 考虑零的位置 1.第一个 实数前为零的全部去掉 2.全是零 结果为零
+    num_list = list(str(num))
+    new_length = len(str(num)) - k
+    stack = ["" for i in range(new_length)]
+    top = 0
+    offset = 0
+
+    for i in num_list:
+        while top > 0 and k > 0 and stack[top - 1] > i:
+            top -= 1
+            k -= 1
+        stack[top] = i
+        top += 1
+    while offset < new_length and stack[offset] == '0':
+        offset += 1
+    if offset == new_length:
+        return 0
+    else:
+        return stack[offset:new_length - offset]
+
+
 a = 30200
-print(get_min_num_1(a, 1))
+print(get_min_num_2(a, 1))
