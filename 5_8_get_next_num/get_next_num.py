@@ -65,5 +65,44 @@ def sort_list(num, border):
     return num
 
 
+def get_next_num_2(num):
+    num = list(str(num))
+    # 1 get border
+    border = get_border_2(num)
+    # 2 exchange the min value and border index
+    num = exchange_list_2(num, border)
+    # 3 sort the last part
+    return sort_list_2(num, border)
+
+
+def get_border_2(num_list):
+    border = -1
+    for i in range(1, len(num_list))[::-1]:
+        if num_list[i] > num_list[i - 1]:
+            border = i - 1
+            break
+    return border
+
+
+def exchange_list_2(num_list, index):
+    tmp_list = num_list[index:]
+    min_index = 0
+    for i in range(1, len(tmp_list)):
+        if tmp_list[i] < tmp_list[min_index]:
+            min_index = i
+    num_list[index], num_list[min_index] = num_list[min_index], num_list[index]
+    return num_list
+
+
+def sort_list_2(num, border):
+    i = len(num) - 1
+    j = border
+    while i > border and j < len(num) - 1:
+        num[i], num[j] = num[j], num[i]
+        i -= 1
+        j += 1
+    return num
+
+
 a = 12354
 print(get_next_num_1(a))

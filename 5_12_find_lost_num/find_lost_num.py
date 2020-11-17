@@ -72,5 +72,28 @@ def get_two_single_nums_1(num_list):
     return res
 
 
-a = [1, 1, 2, 3, 4, 4]
-print(get_two_single_nums_1(a))
+def get_single_num_2(num_list):
+    tmp = 0
+    for i in num_list:
+        tmp ^= i
+    return tmp
+
+
+def get_two_num_2(num_list):
+    res = []
+    sep = 1
+    tmp = 0
+    for i in num_list:
+        tmp ^= i
+    while tmp & sep == 0:
+        sep <<= 1
+    for i in num_list:
+        if i & sep == 1:
+            res[0] ^= i
+        else:
+            res[1] ^= i
+    return res
+
+
+a = [1, 1, 2, 3, 3, 4, 4, 5]
+print(get_single_num_2(a))

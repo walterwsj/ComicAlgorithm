@@ -57,5 +57,48 @@ def get_min_num_2(num, k):
         return stack[offset:new_length - offset]
 
 
+def get_min_num_3(num, k):
+    num_list = list(str(num))
+    new_length = len(num_list) - k
+    top = 0
+    stack = [0 for i in range(new_length)]
+    for i in num_list:
+        while k > 0 and top > 0 and i < stack[top - 1]:
+            top -= 1
+            k -= 1
+        stack[top] = i
+        top += 1
+    offset = 0
+    while offset < new_length and stack[0] == 0:
+        offset += 1
+    if offset == new_length:
+        return 0
+    else:
+        return stack[offset:new_length - offset]
+
+
+def get_min_num_4(num, k):
+    num_list = list(str(num))
+    if len(num_list) < k:
+        return None
+    else:
+        new_num_len = len(num_list) - k
+        stack = [0 for i in range(new_num_len)]
+        top = 0
+        offset = 0
+        for i in num_list:
+            while top > 0 and k > 0 and int(i) < int(stack[top-1]):
+                top -= 1
+                k -= 1
+            stack[top] = i
+            top += 1
+        while offset < new_num_len and int(stack[offset]) == 0:
+            offset += 1
+        if offset == new_num_len:
+            return 0
+        else:
+            return ''.join([str(i) for i in stack[offset:new_num_len - offset + 1]])
+
+
 a = 30200
-print(get_min_num_2(a, 1))
+print(get_min_num_4(a, 1))

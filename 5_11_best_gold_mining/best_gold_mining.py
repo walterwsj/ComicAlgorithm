@@ -96,7 +96,60 @@ def get_best_gold_mining_7(workers, work_list, gold_list):
     return res[workers]
 
 
+def get_best_gold_mining_8(workers, mining_count, worker_list, gold_list):
+    if workers == 0 or mining_count == 0:
+        return 0
+    if workers < worker_list[mining_count - 1]:
+        return get_best_gold_mining_8(workers, mining_count - 1, worker_list, gold_list)
+    return max(get_best_gold_mining_8(workers, mining_count - 1, worker_list, gold_list),
+               get_best_gold_mining_8(workers - worker_list[mining_count - 1], mining_count - 1, worker_list,
+                                      gold_list) + gold_list[mining_count - 1])
+
+
+def get_best_gold_mining_9(workers, work_list, gold_list):
+    rows = workers + 1
+    table = [[i for i in range(rows)] for i in range(len(work_list) + 1)]
+    for i in range(1, len(work_list)):
+        for j in range(1, workers):
+            if workers < j:
+                table[i][j] = table[i - 1][j]
+            else:
+                table[i][j] = max(table[i - 1][j], table[i - 1][j - work_list[i - 1]] + gold_list[i - 1])
+    return table[workers][len(work_list)]
+
+
+def get_best_gold_mining_10(workers, work_list, gold_list):
+    res = [0 for i in range(workers + 1)]
+    for i in range(1, len(work_list)):
+        for j in range(1, workers + 1)[::-1]:
+            if j >= work_list[i - 1]:
+                res[j] = max(res[j], res[j - work_list[i - 1]] + gold_list[i - 1])
+    return res[workers]
+
+
+def get_best_gold_mining_11(workers, golds, work_list, gold_list):
+    if workers == 0 or golds == 0:
+        return 0
+    if workers < work_list[golds - 1]:
+        return get_best_gold_mining_11(workers, golds - 1, work_list, gold_list)
+    return max(get_best_gold_mining_11(workers, golds - 1, work_list, gold_list),
+               get_best_gold_mining_11(workers - work_list[golds - 1], golds - 1, work_list, gold_list) + gold_list[
+                   golds - 1])
+
+
+def get_best_gold_mining_12(workers, work_list, gold_list):
+    rows = len(work_list) + 1
+    table = [[i for i in range(workers + 1)] for i in range(rows)]
+    for i in range(1, rows):
+        for j in range(1, workers + 1):
+            if j < work_list[i - 1]:
+                table[i][j] = table[i - 1][j]
+            else:
+                table[i][j] = max(table[i - 1][j], table[i - 1][j - work_list[i - 1]] + gold_list[i - 1])
+    return table[rows-1][workers]
+
+
 w = 10
 p = [5, 5, 3, 4, 3]
 g = [400, 500, 200, 300, 350]
-print(get_best_gold_mining_5(10, p, g))
+print(get_best_gold_mining_10(10, p, g))
