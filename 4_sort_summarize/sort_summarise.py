@@ -162,5 +162,51 @@ def bucket_sort(num_list):
     return res
 
 
+def count_sort_2(num_list):
+    max_num = num_list[0]
+    min_num = num_list[0]
+    for i in num_list:
+        if i > max_num:
+            max_num = i
+        if i < min_num:
+            min_num = i
+
+    gap = max_num - min_num
+    count_list = [0] * (gap + 1)
+    for i in num_list:
+        count_list[i - min_num] += 1
+    for i in range(1, gap + 1):
+        count_list[i] += count_list[i - 1]
+
+    res = [0] * len(num_list)
+    for i in range(len(num_list)):
+        res[count_list[num_list[i] - min_num] - 1] = num_list[i]
+        count_list[num_list[i] - min_num] -= 1
+    return num_list
+
+
+def heap_sort_1(num_list):
+    len_list = len(num_list)
+    for i in range(len_list // 2, -1, -1):
+        heap_build_1(num_list, i, len_list)
+    for i in range(len_list - 1, -1, -1):
+        num_list[i], num_list[0] = num_list[0], num_list[i]
+        heap_build_1(num_list, 0, i)
+    return num_list
+
+
+def heap_build_1(num_list, index, border):
+    parent, child, tmp = index, 2 * index + 1, num_list[index]
+    while child < border:
+        if child + 1 < border and num_list[child] < num_list[child + 1]:
+            child += 1
+        if tmp > num_list[child]:
+            break
+        num_list[parent] = num_list[child]
+        parent = child
+        child = 2 * child + 1
+    num_list[parent] = tmp
+
+
 a = [5, 4, 3, 2, 2, 1]
 print(bucket_sort(a))

@@ -1,5 +1,7 @@
 class PriorityQueue:
-    def __init__(self, e_list=[]):
+    def __init__(self, e_list=None):
+        if e_list is None:
+            e_list = []
         self._elements = list(e_list)
         if e_list:
             self.build_heap()
@@ -11,7 +13,7 @@ class PriorityQueue:
 
     def en_queue(self, data):
         self._elements.append(None)
-        self.up_adjust(data,len(self._elements)-1)
+        self.up_adjust(data, len(self._elements) - 1)
 
     def de_queue(self):
         if not self._elements:
