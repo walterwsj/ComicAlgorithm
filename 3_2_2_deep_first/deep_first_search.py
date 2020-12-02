@@ -10,6 +10,26 @@ class Tree:
         self.root = node
         self.res = []
 
+    def create_tree_by_list_2(self, data_list):
+        node = TreeNode(data_list[0])
+        if self.root is None:
+            self.root = node
+        index = 1
+        len_list = len(data_list)
+        stack = [self.root]
+        while stack:
+            tmp = stack.pop(0)
+            if index == len_list:
+                break
+            if data_list[index] is not None:
+                tmp.left_child = TreeNode(data_list[index])
+            index += 1
+            if index == len_list:
+                break
+            if data_list[index] is not None:
+                tmp.right_child = TreeNode(data_list[index])
+        return self.root
+
     def create_tree_by_list_1(self, data_list):
         self.root = TreeNode(data_list[0])
         index = 1
@@ -27,7 +47,7 @@ class Tree:
             if data_list[index] is not None:
                 tmp.right_child = TreeNode(data_list[index])
                 node_list.append(tmp.right_child)
-            return self.root
+        return self.root
 
     def create_tree_by_list(self, data_list):
         if data_list is None:
@@ -53,6 +73,31 @@ class Tree:
             if index == len(data_list):
                 break
         return self.root
+
+    def post_order_3(self, tree):
+        stack, stack1 = [tree], []
+        while stack:
+            tmp = stack.pop()
+            stack1.append(tmp)
+            if tmp.left_child is not None:
+                stack1.append(tmp.left_child)
+            if tmp.right_child is not None:
+                stack1.append(tmp.right_child)
+        while stack1:
+            self.res.append(stack1.pop().data)
+        return self.res
+
+    def in_order_non_recurse_1(self, tree):
+        stack = []
+        while tree or stack:
+            while tree:
+                stack.append(tree)
+                tree = tree.left_child
+            if stack:
+                tmp = stack.pop()
+                self.res.append(tmp.data)
+                tree = tmp.right_child
+        return self.res
 
     def in_order(self, tree):
         if tree is not None:
@@ -147,6 +192,17 @@ class Tree:
         return self.res
 
     def breath_first_search(self, tree):
+        queue = [tree]
+        while queue:
+            tmp = queue.pop(0)
+            self.res.append(tmp.data)
+            if tmp.left_child is not None:
+                queue.append(tmp.left_child)
+            if tmp.right_child is not None:
+                queue.append(tmp.right_child)
+        return self.res
+
+    def bread_first_search_1(self, tree):
         queue = [tree]
         while queue:
             tmp = queue.pop(0)

@@ -66,9 +66,39 @@ def get_big_numbers_sum_1(num_a, num_b):
     return final_num
 
 
+def get_big_numbers_sum_2(num1, num2):
+    len_num1 = len(str(num1))
+    len_num2 = len(str(num2))
+    len_res = len_num1 if len_num1 > len_num2 else len_num2
+    res_num1 = [0] * (len_res + 1)
+    res_num2 = [0] * (len_res + 1)
+    res = [0] * (len_res + 1)
 
+    for i in range(len_num1 - 1, -1, -1):
+        res_num1[len_res - i - 1] = int(list(str(num1))[i])
+
+    for i in range(len_num2 - 1, -1, -1):
+        res_num2[len_res - i - 1] = int(list(str(num2))[i])
+
+    for i in range(len_res + 1):
+        res[i] += res_num1[i]
+        res[i] += res_num2[i]
+        if res[i] >= 10:
+            res[i] -= 10
+            res[i + 1] = 1
+
+    for i in res[::-1]:
+        if i == 0:
+            res.pop()
+        else:
+            break
+
+    if res is None:
+        return 0
+    else:
+        return ''.join([str(i) for i in res[::-1]])
 
 
 a = "123"
 b = "237"
-print(get_big_numbers_sum_1(a, b))
+print(get_big_numbers_sum_2(a, b))

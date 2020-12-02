@@ -146,10 +146,76 @@ def get_best_gold_mining_12(workers, work_list, gold_list):
                 table[i][j] = table[i - 1][j]
             else:
                 table[i][j] = max(table[i - 1][j], table[i - 1][j - work_list[i - 1]] + gold_list[i - 1])
-    return table[rows-1][workers]
+    return table[rows - 1][workers]
+
+
+def get_best_gold_mining_13(workers, golds, work_list, gold_list):
+    if workers <= 0 or golds <= 0:
+        return 0
+    if workers < work_list[golds - 1]:
+        return get_best_gold_mining_13(workers, golds - 1, work_list, gold_list)
+    return max(get_best_gold_mining_13(workers, golds - 1, work_list, gold_list),
+               get_best_gold_mining_13(workers - work_list[golds - 1], golds - 1, work_list, gold_list) + gold_list[
+                   golds - 1])
+
+
+def get_best_gold_mining_14(workers, work_list, gold_list):
+    cols = workers + 1
+    rows = len(work_list) + 1
+    res = [[i for i in range(cols)]] * rows
+    for i in range(1, rows):
+        for j in range(1, cols):
+            if j < work_list[i - 1]:
+                res[i][j] = res[i - 1][j]
+            else:
+                res[i][j] = max(res[i - 1][j], res[i - 1][j - work_list[i - 1]] + gold_list[i - 1])
+    return res[rows - 1][cols - 1]
+
+
+def get_best_gold_mining_15(workers, work_list, gold_list):
+    rows = len(work_list) + 1
+    cols = workers + 1
+    res = [[i for i in range(cols)] * rows]
+    for i in range(1, cols):
+        for j in range(1, cols):
+            if work_list[i - 1] > j:
+                res[i][j] = res[i - 1][j]
+            else:
+                res[i][j] = max(res[i - 1][j], res[i - 1][j - work_list[i - 1]] + gold_list[i - 1])
+    return res[rows - 1][cols - 1]
+
+
+def get_best_gold_mining_16(workers, golds, work_list, gold_list):
+    if workers == 0 or golds == 0:
+        return 0
+    if workers < work_list[golds - 1]:
+        return get_best_gold_mining_16(workers, golds - 1, work_list, gold_list)
+    else:
+        return max(get_best_gold_mining_16(workers, golds - 1, work_list, gold_list),
+                   get_best_gold_mining_16(workers - work_list[golds - 1], golds - 1, work_list, gold_list) +
+                   gold_list[golds - 1])
+
+
+def get_best_gold_mining_17(workers, work_list, gold_list):
+    res = [i for i in range(workers + 1)]
+    for i in range(1, len(work_list) + 1):
+        for j in range(workers, -1, -1):
+            if j > work_list[i]:
+                res[j] = max(res[j], res[j - work_list[i - 1]] + gold_list[i - 1])
+    return res[workers]
+
+
+def get_best_gold_mining_18(workers, work_list, gold_list):
+    len_work_list = len(work_list) + 1
+    res = [i for i in range(workers + 1)]
+    for i in range(1, len_work_list):
+        for j in range(workers, -1, -1):
+            if j > work_list[i]:
+                res[j] = max(res[j], res[j - work_list[i - 1]] + gold_list[i - 1])
+    pass
 
 
 w = 10
 p = [5, 5, 3, 4, 3]
 g = [400, 500, 200, 300, 350]
-print(get_best_gold_mining_10(10, p, g))
+print(get_best_gold_mining_12(10, p, g))

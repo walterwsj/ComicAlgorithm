@@ -208,5 +208,27 @@ def heap_build_1(num_list, index, border):
     num_list[parent] = tmp
 
 
+def bucket_sort_2(num_list):
+    max_num = num_list[0]
+    min_num = num_list[0]
+    for i in num_list:
+        if i > max_num:
+            max_num = i
+        if i < min_num:
+            min_num = i
+
+    gap = max_num - min_num
+    bucket_num = len(num_list)
+    buckets = [[]] * bucket_num
+    for i in range(bucket_num):
+        index = (num_list[i] - min_num) * gap / (bucket_num - 1)
+        buckets[i].append(bucket_num[i])
+
+    for bucket in buckets:
+        bucket = sorted(bucket)
+
+    return [j for bucket in buckets for j in bucket]
+
+
 a = [5, 4, 3, 2, 2, 1]
 print(bucket_sort(a))

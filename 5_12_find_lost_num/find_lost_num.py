@@ -95,5 +95,23 @@ def get_two_num_2(num_list):
     return res
 
 
+def get_two_num_3(num_list):
+    sep = 1
+    tmp = 0
+    res = [0, 0]
+    for i in num_list:
+        tmp ^= i
+    if tmp == 0:
+        return None
+    while tmp & sep == 0:
+        sep <<= 1
+    for j in num_list:
+        if j & sep == 1:
+            res[0] ^= j
+        else:
+            res[1] ^= j
+    return res
+
+
 a = [1, 1, 2, 3, 3, 4, 4, 5]
-print(get_single_num_2(a))
+print(get_two_num_3(a))

@@ -104,5 +104,34 @@ def sort_list_2(num, border):
     return num
 
 
+def get_next_num_3(num):
+    # Find the border which is reverse
+    num_list = list(str(num))
+    len_list = len(num_list)
+    border = -1
+    for i in range(len_list - 1, 0, -1):
+        if num_list[i] > num_list[i - 1]:
+            border = i - 1
+            break
+
+    # Exchange the smallest num with the border
+    end = len(num_list)
+    index = border+1
+    for i in range(border + 2, end):
+        if num_list[i] < num_list[index]:
+            index = i
+    num_list[index], num_list[border] = num_list[border], num_list[index]
+
+    # Sort the desc part asc
+    i = border + 1
+    j = len_list-1
+    while i < len_list and j > border:
+        num_list[i], num_list[j] = num_list[j], num_list[i]
+        i += 1
+        j -= 1
+
+    return ''.join(str(i) for i in num_list)
+
+
 a = 12354
-print(get_next_num_1(a))
+print(get_next_num_3(a))

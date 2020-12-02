@@ -42,16 +42,14 @@ class LinkList:
     def get_cross_node(self):
         p1 = self.head
         p2 = self.head
-        step = 0
         while p1 and p2 and p2.next:
             p1 = p1.next
             p2 = p2.next.next
-            step += 1
             if p1 is p2:
                 p1 = self.head
                 while p1 and p2:
-                    p1=p1.next
-                    p2=p2.next
+                    p1 = p1.next
+                    p2 = p2.next
                     if p1 is p2:
                         return p1.data
         return None
